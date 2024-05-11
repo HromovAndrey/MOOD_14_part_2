@@ -1,20 +1,22 @@
 #Client
-
 import socket
 
-client = socket.socket(socket.AF_INET,#user_IP4
-                        socket.SOCK_STREAM)# use_TCP
+def start_client():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(('localhost', 12345))
+    print("Підключено до сервера.")
 
-client.connect(("127.0.0.1",8080))
+    while True:
+        message = input("Введіть повідомлення: ")
+        client_socket.send(message.encode())
 
-while True:
-    data = input("Enter something:")
+        response = client_socket.recv(1024).decode()
+        print("Сервер:", response)
 
-    client.send(data.encode())
-    if data == "exit":
-        break
+        if message.lower() == 'exit':
+            break
 
-    response = client.recv(1024).decode()
-    print(response)
+    client_socket.close()
 
-client.close()
+if __name__ == "__main__":
+    start_client()
