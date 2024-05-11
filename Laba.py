@@ -28,5 +28,5 @@ def start_server():
 
         connection.close()
 
-if __name__ == "__main__":
-    start_server()
+    message = connection.recv(1024).decode()
+    print(message)
